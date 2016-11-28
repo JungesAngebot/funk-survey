@@ -128,8 +128,8 @@ def create_new_question(question):
     connection = create_connection()
     cursor = connection.cursor()
     cursor.execute(
-        'insert into bl_survey.question (title, question, answer, possibilities, survey_id) values (%s, %s, %s, %s, %s)',
-        (question.title, question.question, question.answer, question.possibilities, question.survey_id))
+        'insert into bl_survey.question (title, question, answer, possibilities, survey_id) values (%s, %s, %s, %s, %s)'
+        , (question.title, question.question, question.answer, question.possibilities, question.survey_id))
     connection.commit()
     cursor.close()
     connection.close()
@@ -139,7 +139,8 @@ def update_question(question):
     connection = create_connection()
     cursor = connection.cursor()
     cursor.execute(
-        'update bl_survey.question set title = %s, question = %s, answer = %s, possibilities = %s, survey_id = %s where id = %s',
+        'update bl_survey.question set title = %s, question = %s, answer = %s, possibilities = %s, survey_id = %s '
+        'where id = %s',
         (question.title, question.question, question.answer, question.possibilities, question.survey_id,
          question.question_id))
     connection.commit()
@@ -150,7 +151,7 @@ def update_question(question):
 def delete_question(question_id):
     connection = create_connection()
     cursor = connection.cursor()
-    cursor.execute('delete from bl_survey.survey where id = %s', (question_id,))
+    cursor.execute('delete from bl_survey.question where id = %s', (question_id,))
     connection.commit()
     cursor.close()
     connection.close()
