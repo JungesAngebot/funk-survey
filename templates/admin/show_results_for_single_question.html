@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col l12">
+                {% include 'partials/navigation.html' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col l12">
+                <a class="waves-effect waves-light btn" href="{{ url_for('handler.show_results_for_survey', survey_id=survey_id) }}">Back</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col l12">
+                <ul class="collapsible" data-collapsible="accordion">
+                    {% if question.answer != 'textual' %}
+                        <li>
+                            <div class="collapsible-header"><strong>Evaluation: {{ question.question }}</strong></div>
+                            <div class="collapsible-body">
+                                <div class="row">
+                                    <div class="col l4">
+                                        <canvas id="chart" width="200" height="200">
+
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <div class="collapsible-header"><strong>Answers</strong></div>
+                        <div class="collapsible-body">
+                            <ul class="collection">
+                                {% for answer in answers %}
+                                    <li class="collection-item">
+                                        {{ answer.answer_content }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    {% if question.answer == 'single_choice' %}
+        {% include 'chart/single_choice_chart.html' %}
+    {% elif question.answer == 'multiple_choice' %}
+        {% include 'chart/multiple_choice_chart.html' %}
+    {% endif %}
+{% endblock %}

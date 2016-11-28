@@ -1,0 +1,11 @@
+{"message": "Starting 4 processes"}
+{"message": "200 GET / (::1) 23.33ms"}
+{"message": "200 GET /login (::1) 6.13ms"}
+{"message": "200 POST /admin (::1) 25.33ms"}
+{"message": "200 GET /questions (::1) 12.54ms"}
+{"message": "200 GET /results (::1) 14.09ms"}
+{"message": "200 GET /admin/user_management (::1) 16.24ms"}
+{"message": "200 GET /admin (::1) 8.72ms"}
+{"message": "200 GET /questions (::1) 8.59ms"}
+{"message": "200 GET /results (::1) 8.22ms"}
+{"message": "200 GET /admin (::1) 6.99ms"}

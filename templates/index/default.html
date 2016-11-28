@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col l12">
+                <h1>Bit Lake Survey
+                    <small>Public Surveys</small>
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col l12">
+                <ul class="collection">
+                    {% for survey in surveys %}
+                        <li class="collection-item">
+                            <a href="{{ url_for('handler.show_survey_for_participants', survey_id=survey.survey_id) }}">{{ survey.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

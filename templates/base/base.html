@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>Bit Lake Survey</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+</head>
+<body>
+{% block content %}
+{% endblock %}
+<script src="{{ url_for('static', filename='js/jquery/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bin/materialize.min.js') }}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('select').material_select();
+    });
+</script>
+</body>
+</html>

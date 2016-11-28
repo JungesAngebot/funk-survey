@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col l12">
+                {% include 'partials/navigation.html' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col l12">
+                <form method="post" action="{{ url_for('handler.create_user') }}">
+                    <div class="row">
+                        <div class="input-field col l12">
+                            <input type="text" name="username" id="username">
+                            <label for="username">Username</label>
+                        </div>
+                        <div class="input-field col l12">
+                            <input type="password" name="password" id="password">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="waves-effect waves-light btn">Create</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

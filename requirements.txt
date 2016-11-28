@@ -1,0 +1,12 @@
+Flask
+flask-autodoc
+tornado
+flask-cors
+Flask-Script
+Flask-Security
+Flask-Reggie
+python-json-logger
+flask-paginate
+requests
+psycopg2
+pyyaml

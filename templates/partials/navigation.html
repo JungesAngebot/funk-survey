@@ -1,0 +1,10 @@
+<nav>
+    <div class="nav-wrapper">
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li {% if page == 'admin' %}class="active"{% endif %}><a href="{{url_for('handler.admin_page')}}">Surveys</a></li>
+            <li {% if page == 'questions' %}class="active"{% endif %}><a href="{{ url_for('handler.questions') }}">Questions</a></li>
+            <li {% if page == 'results' %}class="active"{% endif %}><a href="{{ url_for('handler.result_overview') }}">Results</a></li>
+            <li {% if page == 'user_management' %}class="active"{% endif %}><a href="{{ url_for('handler.user_management') }}">Users</a></li>
+        </ul>
+    </div>
+</nav>

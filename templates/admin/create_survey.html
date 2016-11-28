@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col l12">
+                {% include 'partials/navigation.html' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col l12">
+                <form method="post" action="{{ url_for('handler.create_survey') }}">
+                    <div class="row">
+                        <div class="input-field col l12">
+                            <input type="text" name="title" id="title">
+                            <label for="title">Title</label>
+                        </div>
+                        <div class="input-field col l12">
+                            <input type="text" name="description" id="description">
+                            <label for="description">Description</label>
+                        </div>
+                        <div class="input-field col l12">
+                            <input type="radio" name="is_public" id="is_public">
+                            <label for="is_public">Is Public</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="waves-effect waves-light btn">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

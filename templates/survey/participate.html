@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col l12">
+                <h1>Bit Lake Survey
+                    <small>Participate</small>
+                </h1>
+                <h2>{{ survey.title }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col l12">
+                <form method="post" action="{{ url_for('handler.show_survey_for_participants', survey_id=survey.survey_id) }}">
+                    {% for question in questions %}
+                        <div class="row">
+                            <p>{{ question.question }}</p>
+                            {% if question.answer == 'single_choice' %}
+                                <div class="input-field col l12">
+                                    <input type="radio" id="{{ question.question_id }}_yes"
+                                           name="{{ question.question_id }}_yes">
+                                    <label for="{{ question.question_id }}_yes">Yes</label>
+                                </div>
+                                <div class="input-field col l12">
+                                    <input type="radio" id="{{ question.question_id }}_no"
+                                           name="{{ question.question_id }}_no">
+                                    <label for="{{ question.question_id }}_no">No</label>
+                                </div>
+                            {% elif question.answer == 'multiple_choice' %}
+                                {% for choice in question.possibilities.split(',') %}
+                                    <div class="input-field col l12">
+                                        <input type="checkbox" id="{{ question.question_id }}_{{ loop.index }}"
+                                               name="{{ question.question_id }}_{{ loop.index }}">
+                                        <label for="{{ question.question_id }}_{{ loop.index }}">{{ choice }}</label>
+                                    </div>
+                                {% endfor %}
+                            {% elif question.answer == 'textual' %}
+                                <div class="input-field col l12">
+                                    <input type="text" id="{{ question.question_id }}_text"
+                                           name="{{ question.question_id }}_text">
+                                    <label for="{{ question.question_id }}_text"></label>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <div class="row">
+                        <button type="submit" class="waves-effect waves-light btn">Done</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

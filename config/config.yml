@@ -1,0 +1,7 @@
+database:
+  host: localhost
+  port: 5000
+  database_name: survey_bi
+  username: bi
+  password: funk2016
+  connection_timeout: 0

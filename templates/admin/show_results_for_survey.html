@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col l12">
+                {% include 'partials/navigation.html' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col l12">
+                <a class="waves-effect waves-light btn" href="{{ url_for('handler.result_overview') }}">Back</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col l12">
+                <ul class="collection">
+                    {% for question in questions %}
+                        <li class="collection-item">
+                            <a href="{{ url_for('handler.show_results_for_single_question', survey_id=survey.survey_id, question_id=question.question_id) }}">{{ question.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
