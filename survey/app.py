@@ -16,7 +16,8 @@ def create_app():
     To measure performance of each function the app will also get a middleware profiler. This enables
     the python env, to measure each function call. This is used to detect bottle necks in the app.
     """
-    app = Flask(__name__, static_folder=APP_ROOT + '/static', static_url_path='/static', template_folder=APP_ROOT + '/templates')
+    app = Flask(__name__, static_folder=APP_ROOT + '/static', static_url_path='/static',
+                template_folder=APP_ROOT + '/templates')
     app.secret_key = 'bit_lake_survey_key'
     CORS(app)
     app.config['CORS_HEADERS'] = 'Content-Type'

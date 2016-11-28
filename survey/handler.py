@@ -11,7 +11,7 @@ from survey.blueprints import app
 from survey.db import get_user_by_name, get_all_users, update_user_by_name, create_new_user, delete_user_by_name, \
     create_new_survey, get_survey_by_id, update_survey, delete_survey_by_id, \
     get_all_questions, get_surveys, get_surveys_by_visibility, get_questions_by_survey_id, create_new_question, \
-    save_answers, get_question_by_id, get_answers_by_question_id
+    save_answers, get_question_by_id, get_answers_by_question_id, delete_question, update_question
 from survey.models import User, Survey, Question, Answer
 
 
@@ -112,7 +112,7 @@ def view_survey(survey_id):
     return render_template('admin/survey_detail_view.html', survey=get_survey_by_id(survey_id))
 
 
-@app.route('/survey/delete<string:survey_id>')
+@app.route('/survey/delete/<string:survey_id>')
 @login_required
 def delete_survey(survey_id):
     delete_survey_by_id(survey_id)
@@ -136,6 +136,27 @@ def create_question():
         survey_id = request.form.get('survey_id')
         create_new_question(Question(title, question, answer, possibilities, survey_id))
     return render_template('admin/question_create.html', surveys=get_surveys())
+
+
+@app.route('/questions/<string:question_id>', methods=['GET', 'POST'])
+@login_required
+def view_question(question_id):
+    if request.method == 'POST':
+        title = request.form.get('title')
+        question = request.form.get('question')
+        answer = request.form.get('answer')
+        possibilities = request.form.get('possibilities')
+        survey_id = request.form.get('survey_id')
+        update_question(Question(title, question, answer, possibilities, survey_id, question_id))
+
+    return render_template('admin/show_results_for_single_question.html', question=get_question_by_id(question_id))
+
+
+@app.route('/questions/delete/<string:question_id>')
+@login_required
+def delete_question_by_question_id(question_id):
+    delete_question(question_id)
+    return redirect(url_for('handler.questions'))
 
 
 @app.route('/participate/survey/<string:survey_id>', methods=['GET', 'POST'])

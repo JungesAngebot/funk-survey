@@ -17,9 +17,9 @@
                 <ul class="collection">
                     {% for question in questions %}
                         <li class="collection-item">{{ question.title }}
-                            <a href=""
+                            <a href="{{ url_for('handler.view_question', question_id=question.question_id) }}"
                                class="waves-effect waves-light btn right">View</a>
-                            <a href=""
+                            <a href="{{ url_for('handler.delete_question_by_question_id', question_id=question.question_id) }}"
                                class="waves-effect waves-light btn right">Delete</a>
                         </li>
                     {% endfor %}
