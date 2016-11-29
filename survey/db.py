@@ -204,6 +204,17 @@ def save_answers(answers):
     connection.close()
 
 
+def save_survey_fields(survey_id, name, manager, creator_format, mandat):
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute('insert into bl_survey.survey_completed (survey_id, name, manager, format, mandat) '
+                   'values (%s, %s, %s, %s)', (survey_id, name, manager, creator_format, mandat))
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
 def get_answers_by_question_id(question_id):
     connection = create_connection()
     cursor = connection.cursor()

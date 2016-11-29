@@ -11,7 +11,7 @@ from survey.blueprints import app
 from survey.db import get_user_by_name, get_all_users, update_user_by_name, create_new_user, delete_user_by_name, \
     create_new_survey, get_survey_by_id, update_survey, delete_survey_by_id, \
     get_all_questions, get_surveys, get_surveys_by_visibility, get_questions_by_survey_id, create_new_question, \
-    save_answers, get_question_by_id, get_answers_by_question_id, delete_question, update_question
+    save_answers, get_question_by_id, get_answers_by_question_id, delete_question, update_question, save_survey_fields
 from survey.models import User, Survey, Question, Answer
 
 
@@ -180,6 +180,10 @@ def show_survey_for_participants(survey_id):
                         answers.append(Answer(question.answer, '%s|%s' % (key, value), question.question_id))
             print('--------------')
         save_answers(answers)
+        participant_name = request.form.get('participantName')
+        partner_manager = request.form.get('participantManager')
+        mandat = request.form.get('participantMandat')
+        save_survey_fields(survey_id, participant_name, None, partner_manager, mandat)
     return render_template('survey/participate.html', survey=get_survey_by_id(survey_id),
                            questions=get_questions_by_survey_id(survey_id))
 

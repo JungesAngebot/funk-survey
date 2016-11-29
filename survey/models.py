@@ -15,6 +15,16 @@ class Survey(object):
         self.is_public = is_public
 
 
+class CompletedSurvey(object):
+    def __init__(self, participant_name, manager, mandat, creator_format, survey_id, survey_completed_id=None):
+        self.name = participant_name
+        self.manager = manager
+        self.mandat = mandat
+        self.format = creator_format
+        self.survey_id = survey_id
+        self.survey_completed_id = survey_completed_id
+
+
 class Question(object):
     def __init__(self, title, question, answer, possibilities, survey_id, question_id=None):
         self.title = title
