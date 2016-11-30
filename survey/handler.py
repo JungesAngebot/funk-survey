@@ -1,5 +1,6 @@
 import hashlib
 
+from commonspy.logging import log_info, log_error
 from flask import redirect
 from flask import render_template, session
 from flask import request
@@ -10,7 +11,6 @@ from survey import login_manager
 from survey.blueprints import app
 from survey.db import *
 from survey.models import User, Survey, Question, Answer, SurveyResult
-from commonspy.logging import log_info
 
 
 @login_manager.request_loader
@@ -241,3 +241,9 @@ def show_results_for_single_question(survey_id, question_id):
                            question=question, answers=rendered_results, survey_id=survey_id,
                            possibilities=[p.strip().replace("'", '') for p in question.possibilities.split(',')],
                            keys=list(data.keys()), values=list(data.values()))
+
+
+@app.errorhandler(Exception)
+def exception_handler(e):
+    log_error(e)
+    return render_template('error/error.html')
