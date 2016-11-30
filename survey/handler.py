@@ -9,7 +9,8 @@ from flask.ext.login import login_required
 from survey import login_manager
 from survey.blueprints import app
 from survey.db import *
-from survey.models import User, Survey, Question, Answer
+from survey.models import User, Survey, Question, Answer, SurveyResult
+from commonspy.logging import log_info
 
 
 @login_manager.request_loader
@@ -162,8 +163,7 @@ def show_survey_for_participants(survey_id):
         questions = get_questions_by_survey_id(survey_id)
         answers = list()
         for question in questions:
-            print('--------------')
-            print(question.title)
+            log_info('Question: %s' % question.title)
             question_id = question.question_id
             if question.answer == 'multiple_choice':
                 values = []
@@ -175,17 +175,18 @@ def show_survey_for_participants(survey_id):
                 for key, value in request.form.items():
                     if key.startswith(str(question_id)):
                         answers.append(Answer(question.answer, '%s|%s' % (key, value), question.question_id))
-            print('--------------')
         save_answers(answers)
-        participant_name = str(request.form.get('participantName'))
-        partner_manager = str(request.form.get('participantManager'))
-        mandat = str(request.form.get('participantMandat'))
-        creator_selected = str(request.form.get('creatorName'))
-        save_survey_fields(survey_id, participant_name, creator_selected, partner_manager, mandat)
-        print('survey fields filled in')
+
+        participant_name = request.form.get('participantName')
+        partner_manager = request.form.get('participantManager')
+        department = request.form.get('participantDepartment')
+        creator_format = request.form.get('creatorName')
+        save_survey_fields(SurveyResult(participant_name, partner_manager, department, creator_format, survey_id))
+        log_info('Survey submitted')
+
     return render_template('survey/participate.html', survey=get_survey_by_id(survey_id),
                            questions=get_questions_by_survey_id(survey_id),
-                           creators=get_creators_list_from_business_layer())
+                           creators=get_creators_from_business_layer_table())
 
 
 @app.route('/results')

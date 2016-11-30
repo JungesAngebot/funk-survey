@@ -17,12 +17,12 @@ create table bl_survey.survey (
 );
 
 create table bl_survey.survey_completed (
-  id serial PRIMARY KEY not null,
+  survey_result_id serial PRIMARY KEY not null,
   survey_id int,
-  name text not null,
+  participant_name text not null,
   manager text not null,
   format text not null,
-  mandat text
+  department text
 );
 
 create table bl_survey.question (

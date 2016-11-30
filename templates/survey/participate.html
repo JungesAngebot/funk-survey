@@ -20,16 +20,21 @@
                         <input type="text" id="participantName" name="participantName"
                                placeholder="Participant's Name" required>
                         <label for="participantName"></label>
+                    </div>
+                    <div class="input-field col l12">
                         <input type="text" id="participantManager" name="participantManager"
                                placeholder="Partner Manager" required>
                         <label for="participantManager"></label>
-                        <input type="text" id="participantMandat" name="participantMandat"
-                               placeholder="Mandat/Redaktion" required>
-                        <label for="participantMandat"></label>
-
+                    </div>
+                    <div class="input-field col l12">
+                        <input type="text" id="participantDepartment" name="participantDepartment"
+                               placeholder="Department" required>
+                        <label for="participantDepartment"></label>
+                    </div>
+                    <div class="input-field col l12">
                         <select name="creatorName">
                             {% for creator in creators %}
-                                <option value="{{ creator }}"> {{ creator }}</option>
+                                <option value="{{ creator.format_name }}"> {{ creator.format_name }}</option>
                             {% endfor %}
                         </select>
                         <label for="creatorName"></label>
