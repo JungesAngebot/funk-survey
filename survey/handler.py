@@ -8,10 +8,7 @@ from flask.ext.login import login_required
 
 from survey import login_manager
 from survey.blueprints import app
-from survey.db import get_user_by_name, get_all_users, update_user_by_name, create_new_user, delete_user_by_name, \
-    create_new_survey, get_survey_by_id, update_survey, delete_survey_by_id, \
-    get_all_questions, get_surveys, get_surveys_by_visibility, get_questions_by_survey_id, create_new_question, \
-    save_answers, get_question_by_id, get_answers_by_question_id, delete_question, update_question, save_survey_fields
+from survey.db import *
 from survey.models import User, Survey, Question, Answer
 
 
@@ -180,12 +177,15 @@ def show_survey_for_participants(survey_id):
                         answers.append(Answer(question.answer, '%s|%s' % (key, value), question.question_id))
             print('--------------')
         save_answers(answers)
-        participant_name = request.form.get('participantName')
-        partner_manager = request.form.get('participantManager')
-        mandat = request.form.get('participantMandat')
-        save_survey_fields(survey_id, participant_name, None, partner_manager, mandat)
+        participant_name = str(request.form.get('participantName'))
+        partner_manager = str(request.form.get('participantManager'))
+        mandat = str(request.form.get('participantMandat'))
+        creator_selected = str(request.form.get('creatorName'))
+        save_survey_fields(survey_id, participant_name, creator_selected, partner_manager, mandat)
+        print('survey fields filled in')
     return render_template('survey/participate.html', survey=get_survey_by_id(survey_id),
-                           questions=get_questions_by_survey_id(survey_id))
+                           questions=get_questions_by_survey_id(survey_id),
+                           creators=get_creators_list_from_business_layer())
 
 
 @app.route('/results')
@@ -238,4 +238,5 @@ def show_results_for_single_question(survey_id, question_id):
         rendered_results.append(answer)
     return render_template('admin/show_results_for_single_question.html', page='result',
                            question=question, answers=rendered_results, survey_id=survey_id,
-                           possibilities=[p.strip().replace("'", '') for p in question.possibilities.split(',')], keys=list(data.keys()), values=list(data.values()))
+                           possibilities=[p.strip().replace("'", '') for p in question.possibilities.split(',')],
+                           keys=list(data.keys()), values=list(data.values()))

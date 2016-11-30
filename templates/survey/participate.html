@@ -18,16 +18,22 @@
 
                     <div class="input-field col l12">
                         <input type="text" id="participantName" name="participantName"
-                               placeholder="Participant's Name">
+                               placeholder="Participant's Name" required>
                         <label for="participantName"></label>
                         <input type="text" id="participantManager" name="participantManager"
-                               placeholder="Partner Manager">
+                               placeholder="Partner Manager" required>
                         <label for="participantManager"></label>
                         <input type="text" id="participantMandat" name="participantMandat"
-                               placeholder="Mandat/Redaktion">
+                               placeholder="Mandat/Redaktion" required>
                         <label for="participantMandat"></label>
-                    </div>
 
+                        <select name="creatorName">
+                            {% for creator in creators %}
+                                <option value="{{ creator }}"> {{ creator }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="creatorName"></label>
+                    </div>
                     {% for question in questions %}
                         <div class="row">
                             <p>{{ question.question }}</p>

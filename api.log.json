@@ -1,12 +1,4 @@
 {"message": "Starting 4 processes"}
-{"message": "200 GET /login (::1) 17.25ms"}
-{"message": "200 POST /admin (::1) 25.17ms"}
-{"message": "200 GET /questions (::1) 16.52ms"}
-{"message": "200 GET /admin (::1) 11.73ms"}
-{"message": "200 GET /survey/1 (::1) 18.23ms"}
-{"message": "200 GET /questions (::1) 13.13ms"}
-{"message": "200 GET /questions/1 (::1) 21.06ms"}
-{"message": "404 GET /results/ (::1) 9.57ms"}
-{"message": "404 GET /questions/ (::1) 2.51ms"}
-{"message": "200 GET / (::1) 14.68ms"}
-{"message": "200 GET /participate/survey/1 (::1) 32.18ms"}
+{"message": "200 GET / (::1) 30.27ms"}
+{"message": "200 GET /participate/survey/1 (::1) 39.93ms"}
+{"message": "200 POST /participate/survey/1 (::1) 62.41ms"}

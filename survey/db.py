@@ -208,7 +208,7 @@ def save_survey_fields(survey_id, name, manager, creator_format, mandat):
     connection = create_connection()
     cursor = connection.cursor()
     cursor.execute('insert into bl_survey.survey_completed (survey_id, name, manager, format, mandat) '
-                   'values (%s, %s, %s, %s)', (survey_id, name, manager, creator_format, mandat))
+                   'values (%s, %s, %s, %s, %s)', (survey_id, name, manager, creator_format, mandat))
 
     connection.commit()
     cursor.close()
@@ -224,3 +224,12 @@ def get_answers_by_question_id(question_id):
     cursor.close()
     connection.close()
     return [Answer(row.get('answer_type'), row.get('answer_content'), row.get('question_id')) for row in rows]
+
+
+def get_creators_list_from_business_layer():
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute('select display_name from business_layer.manual_map')
+    rows = cursor.fetchall()
+    connection.close()
+    return [creator_entry['display_name'] for creator_entry in rows]
