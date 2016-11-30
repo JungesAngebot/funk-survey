@@ -240,7 +240,7 @@ def show_results_for_single_question(survey_id, question_id):
     return render_template('admin/show_results_for_single_question.html', page='result',
                            question=question, answers=rendered_results, survey_id=survey_id,
                            possibilities=[p.strip().replace("'", '') for p in question.possibilities.split(',')],
-                           keys=[key for key in data.keys()], values=[value for value in data.values()])
+                           data=data)
 
 
 @app.errorhandler(Exception)
