@@ -1,6 +1,6 @@
 database:
   host: localhost
-  port: 5000
+  port: 5432
   database_name: survey_bi
   username: bi
   password: funk2016

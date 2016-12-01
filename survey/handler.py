@@ -1,5 +1,6 @@
 import hashlib
 
+from commonspy.logging import log_info, log_error
 from flask import redirect
 from flask import render_template, session
 from flask import request
@@ -8,11 +9,8 @@ from flask.ext.login import login_required
 
 from survey import login_manager
 from survey.blueprints import app
-from survey.db import get_user_by_name, get_all_users, update_user_by_name, create_new_user, delete_user_by_name, \
-    create_new_survey, get_survey_by_id, update_survey, delete_survey_by_id, \
-    get_all_questions, get_surveys, get_surveys_by_visibility, get_questions_by_survey_id, create_new_question, \
-    save_answers, get_question_by_id, get_answers_by_question_id, delete_question, update_question
-from survey.models import User, Survey, Question, Answer
+from survey.db import *
+from survey.models import User, Survey, Question, Answer, SurveyResult
 
 
 @login_manager.request_loader
@@ -165,8 +163,7 @@ def show_survey_for_participants(survey_id):
         questions = get_questions_by_survey_id(survey_id)
         answers = list()
         for question in questions:
-            print('--------------')
-            print(question.title)
+            log_info('Question: %s' % question.title)
             question_id = question.question_id
             if question.answer == 'multiple_choice':
                 values = []
@@ -178,10 +175,18 @@ def show_survey_for_participants(survey_id):
                 for key, value in request.form.items():
                     if key.startswith(str(question_id)):
                         answers.append(Answer(question.answer, '%s|%s' % (key, value), question.question_id))
-            print('--------------')
         save_answers(answers)
+
+        participant_name = request.form.get('participantName')
+        partner_manager = request.form.get('participantManager')
+        department = request.form.get('participantDepartment')
+        creator_format = request.form.get('creatorName')
+        save_survey_fields(SurveyResult(participant_name, partner_manager, department, creator_format, survey_id))
+        log_info('Survey submitted')
+
     return render_template('survey/participate.html', survey=get_survey_by_id(survey_id),
-                           questions=get_questions_by_survey_id(survey_id))
+                           questions=get_questions_by_survey_id(survey_id),
+                           creators=get_creators_from_business_layer_table())
 
 
 @app.route('/results')
@@ -234,4 +239,11 @@ def show_results_for_single_question(survey_id, question_id):
         rendered_results.append(answer)
     return render_template('admin/show_results_for_single_question.html', page='result',
                            question=question, answers=rendered_results, survey_id=survey_id,
-                           possibilities=[p.strip().replace("'", '') for p in question.possibilities.split(',')], keys=list(data.keys()), values=list(data.values()))
+                           possibilities=[p.strip().replace("'", '') for p in question.possibilities.split(',')],
+                           data=data)
+
+
+@app.errorhandler(Exception)
+def exception_handler(e):
+    log_error(e)
+    return render_template('error/error.html')

@@ -1,6 +1,0 @@
-{"message": "Starting 4 processes"}
-{"message": "200 GET /admin (::1) 29.87ms"}
-{"message": "200 GET /questions (::1) 13.99ms"}
-{"message": "200 GET /questions/5 (::1) 19.87ms"}
-{"message": "404 GET /results/ (::1) 7.70ms"}
-{"message": "200 GET / (::1) 10.29ms"}

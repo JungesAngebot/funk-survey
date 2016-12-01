@@ -3,10 +3,10 @@
     var chart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: {{ keys|safe }},
+            labels: {{ data.keys()|safe }},
             datasets: [{
                 label: 'Yes',
-                data: {{ values }},
+                data: {{ data.values() }},
                 borderWidth: 1,
                 backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

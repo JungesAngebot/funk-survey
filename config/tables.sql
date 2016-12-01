@@ -16,6 +16,15 @@ create table bl_survey.survey (
   is_public boolean DEFAULT false
 );
 
+create table bl_survey.survey_completed (
+  survey_result_id serial PRIMARY KEY not null,
+  survey_id int,
+  participant_name text not null,
+  manager text not null,
+  format text not null,
+  department text
+);
+
 create table bl_survey.question (
   id serial PRIMARY KEY not null,
   title text,

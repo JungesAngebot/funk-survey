@@ -24,8 +24,6 @@ var/
 .installed.cfg
 *.egg
 .idea/
-
-
 api.log.json
 
 # PyInstaller

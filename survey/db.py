@@ -2,7 +2,7 @@ import psycopg2 as pg
 import psycopg2.extras as pgextra
 
 from survey import config
-from survey.models import User, Survey, Question, Answer
+from survey.models import User, Survey, Question, Answer, Creator
 
 
 def create_connection():
@@ -204,6 +204,18 @@ def save_answers(answers):
     connection.close()
 
 
+def save_survey_fields(survey_result):
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute('insert into bl_survey.survey_completed (survey_id, participant_name, manager, format, department) '
+                   'values (%s, %s, %s, %s, %s)', (survey_result.survey_id, survey_result.participant_name,
+                                                   survey_result.manager, survey_result.format,
+                                                   survey_result.department))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
 def get_answers_by_question_id(question_id):
     connection = create_connection()
     cursor = connection.cursor()
@@ -213,3 +225,12 @@ def get_answers_by_question_id(question_id):
     cursor.close()
     connection.close()
     return [Answer(row.get('answer_type'), row.get('answer_content'), row.get('question_id')) for row in rows]
+
+
+def get_creators_from_business_layer_table():
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute('select display_name from business_layer.manual_map')
+    rows = cursor.fetchall()
+    connection.close()
+    return [Creator(row.get('display_name')) for row in rows]

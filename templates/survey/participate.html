@@ -4,15 +4,41 @@
     <div class="container">
         <div class="row">
             <div class="col l12">
-                <h1>Bit Lake Survey
+                <h5>Funk Qualitative Feedback Mechanisms Tool
                     <small>Participate</small>
-                </h1>
-                <h2>{{ survey.title }}</h2>
+                </h5>
+                <h6>{{ survey.title }}</h6>
             </div>
         </div>
+
         <div class="row">
             <div class="col l12">
-                <form method="post" action="{{ url_for('handler.show_survey_for_participants', survey_id=survey.survey_id) }}">
+                <form method="post"
+                      action="{{ url_for('handler.show_survey_for_participants', survey_id=survey.survey_id) }}">
+
+                    <div class="input-field col l12">
+                        <input type="text" id="participantName" name="participantName"
+                               placeholder="Participant's Name" required>
+                        <label for="participantName"></label>
+                    </div>
+                    <div class="input-field col l12">
+                        <input type="text" id="participantManager" name="participantManager"
+                               placeholder="Partner Manager" required>
+                        <label for="participantManager"></label>
+                    </div>
+                    <div class="input-field col l12">
+                        <input type="text" id="participantDepartment" name="participantDepartment"
+                               placeholder="Department" required>
+                        <label for="participantDepartment"></label>
+                    </div>
+                    <div class="input-field col l12">
+                        <select name="creatorName">
+                            {% for creator in creators %}
+                                <option value="{{ creator.format_name }}"> {{ creator.format_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="creatorName"></label>
+                    </div>
                     {% for question in questions %}
                         <div class="row">
                             <p>{{ question.question }}</p>
