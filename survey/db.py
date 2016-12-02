@@ -128,8 +128,10 @@ def create_new_question(question):
     connection = create_connection()
     cursor = connection.cursor()
     cursor.execute(
-        'insert into bl_survey.question (title, question, answer, possibilities, survey_id) values (%s, %s, %s, %s, %s)'
-        , (question.title, question.question, question.answer, question.possibilities, question.survey_id))
+        'insert into bl_survey.question (title, question, answer, possibilities, metric, platform, time_frame, '
+        'survey_id) values (%s, %s, %s, %s, %s, %s, %s, %s)'
+        , (question.title, question.question, question.answer, question.possibilities, question.metric,
+           question.platform, question.time_frame, question.survey_id))
     connection.commit()
     cursor.close()
     connection.close()
@@ -139,10 +141,11 @@ def update_question(question):
     connection = create_connection()
     cursor = connection.cursor()
     cursor.execute(
-        'update bl_survey.question set title = %s, question = %s, answer = %s, possibilities = %s, survey_id = %s '
+        'update bl_survey.question set title = %s, question = %s, answer = %s, possibilities = %s, '
+        'metric = %s, platform = %s, time_frame = %s, survey_id = %s '
         'where id = %s',
-        (question.title, question.question, question.answer, question.possibilities, question.survey_id,
-         question.question_id))
+        (question.title, question.question, question.answer, question.possibilities, question.metric,
+         question.platform, question.time_frame, question.survey_id, question.question_id))
     connection.commit()
     cursor.close()
     connection.close()
@@ -166,6 +169,7 @@ def get_question_by_id(question_id):
     cursor.close()
     connection.close()
     return Question(row.get('title'), row.get('question'), row.get('answer'), row.get('possibilities'),
+                    row.get('metric'), row.get('platform'), row.get('time_frame'),
                     row.get('survey_id'), row.get('id'))
 
 
@@ -178,6 +182,7 @@ def get_questions_by_survey_id(survey_id):
     cursor.close()
     connection.close()
     return [Question(row.get('title'), row.get('question'), row.get('answer'), row.get('possibilities'),
+                     row.get('metric'), row.get('platform'), row.get('time_frame'),
                      row.get('survey_id'), row.get('id')) for row in rows]
 
 
@@ -190,7 +195,8 @@ def get_all_questions():
     cursor.close()
     connection.close()
     return [Question(row.get('title'), row.get('description'), row.get('answer'), row.get('possibilities'),
-                     row.get('survey_id'), row.get('id')) for row in rows]
+                     row.get('metric'), row.get('platform'), row.get('time_frame'), row.get('survey_id'),
+                     row.get('id')) for row in rows]
 
 
 def save_answers(answers):

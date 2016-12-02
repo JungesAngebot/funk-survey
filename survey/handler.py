@@ -131,8 +131,11 @@ def create_question():
         question = request.form.get('question')
         answer = request.form.get('answer', 'single_choice')
         possibilities = request.form.get('possibilities')
+        metric = request.form.get('metric')
+        platform = request.form.get('platform')
+        time_frame = request.form.get('time_frame')
         survey_id = request.form.get('survey_id')
-        create_new_question(Question(title, question, answer, possibilities, survey_id))
+        create_new_question(Question(title, question, answer, possibilities, metric, platform, time_frame, survey_id))
     return render_template('admin/question_create.html', surveys=get_surveys())
 
 
@@ -147,7 +150,8 @@ def view_question(question_id):
         survey_id = request.form.get('survey_id')
         update_question(Question(title, question, answer, possibilities, survey_id, question_id))
 
-    return render_template('admin/show_results_for_single_question.html', question=get_question_by_id(question_id))
+    return render_template('admin/show_results_for_single_question.html', question=get_question_by_id(question_id),
+                           data={})
 
 
 @app.route('/questions/delete/<string:question_id>')
@@ -221,7 +225,7 @@ def show_results_for_single_question(survey_id, question_id):
             else:
                 answer.answer_content = 'No for: %s' % get_question_by_id(answer.question_id).question
                 question.no_count += 1
-        elif answer.answer_type == 'multiple_choice':
+        elif answer.answer_type == 'multiple_choice' or answer.answer_type == 'rank':
             r = []
             for selection in answer.answer_content.split(','):
                 value = selection.split('|')[0]

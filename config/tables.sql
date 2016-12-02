@@ -31,6 +31,9 @@ create table bl_survey.question (
   question text,
   answer bl_survey.answer_type,
   possibilities text,
+  metric text,
+  platform text,
+  time_frame text,
   survey_id int
 );
 

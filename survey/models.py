@@ -26,12 +26,16 @@ class SurveyResult(object):
 
 
 class Question(object):
-    def __init__(self, title, question, answer, possibilities, survey_id, question_id=None):
+    def __init__(self, title, question, answer, possibilities, metric, platform, time_frame,
+                 survey_id, question_id=None):
         self.title = title
         self.question = question
         self.answer = answer
         self.possibilities = possibilities
         self.survey_id = survey_id
+        self.metric = metric
+        self.platform = platform
+        self.time_frame = time_frame
         self.question_id = question_id
 
 

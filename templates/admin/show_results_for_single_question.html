@@ -10,7 +10,7 @@
         </div>
         <div class="row">
             <div class="col l12">
-                <a class="waves-effect waves-light btn" href="{{ url_for('handler.show_results_for_survey', survey_id=survey_id) }}">Back</a>
+                <a class="waves-effect waves-light btn" href="{{ url_for('handler.questions') }}">Back</a>
             </div>
         </div>
         <div class="row">
@@ -50,6 +50,8 @@
     {% if question.answer == 'single_choice' %}
         {% include 'chart/single_choice_chart.html' %}
     {% elif question.answer == 'multiple_choice' %}
+        {% include 'chart/multiple_choice_chart.html' %}
+    {% elif question.answer == 'rank' %}
         {% include 'chart/multiple_choice_chart.html' %}
     {% endif %}
 {% endblock %}
