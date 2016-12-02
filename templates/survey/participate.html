@@ -61,6 +61,14 @@
                                         <label for="{{ question.question_id }}_{{ loop.index }}">{{ choice }}</label>
                                     </div>
                                 {% endfor %}
+                            {% elif question.answer == 'rank' %}
+                                {% for choice in question.possibilities.split(',') %}
+                                    <div class="input-field col l12" style="display: inline-flex">
+                                        <input type="radio" id="{{ question.question_id }}_{{ loop.index }}"
+                                               name="{{ question.question_id }}_{{ loop.index }}">
+                                        <label for="{{ question.question_id }}_{{ loop.index }}">{{ choice }}</label>
+                                    </div>
+                                {% endfor %}
                             {% elif question.answer == 'textual' %}
                                 <div class="input-field col l12">
                                     <input type="text" id="{{ question.question_id }}_text"
