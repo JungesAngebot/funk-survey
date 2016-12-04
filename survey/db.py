@@ -240,3 +240,33 @@ def get_creators_from_business_layer_table():
     rows = cursor.fetchall()
     connection.close()
     return [Creator(row.get('display_name')) for row in rows]
+
+
+def get_numerical_question_part_by_parameters(question_id, creator_format_name):
+    print(creator_format_name)
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute(
+        'select metric, platform, time_frame from bl_survey.question where id= %s', (question_id,))
+    question_row = cursor.fetchone()
+    question_metric = question_row['metric']
+    question_time_frame = question_row['time_frame']
+    question_platform = question_row['platform']
+    print(question_metric, question_time_frame, question_platform)
+    connection.close()
+    return '%s gained %s on %s' % (get_numerical_results_from_bi_reporting_table(creator_format_name, question_metric,
+                                                                                 question_platform,
+                                                                                 question_time_frame), question_metric,
+                                   question_platform)
+
+
+def get_numerical_results_from_bi_reporting_table(creator_format_name, kpi, platform, time_frame):
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute('select sum(current_value) from reporting_layer.bi_data_staging_rl_piv_format_platform_day '
+                   'where format=%s and kpi = %s and platform = %s and report_date >= to_date(%s, \'DD Mon YYYY\') AND '
+                   'report_date < (to_date(%s, \'DD Mon YYYY\') + INTERVAL  \'1 Month\')::DATE',
+                   (creator_format_name, kpi, platform, time_frame, time_frame))
+    numerical_result_row = cursor.fetchone()
+    connection.close()
+    return numerical_result_row['sum']

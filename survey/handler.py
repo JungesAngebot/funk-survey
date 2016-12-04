@@ -147,8 +147,12 @@ def view_question(question_id):
         question = request.form.get('question')
         answer = request.form.get('answer')
         possibilities = request.form.get('possibilities')
+        metric = request.form.get('metric')
+        platform = request.form.get('platform')
+        time_frame = request.form.get('time_frame')
         survey_id = request.form.get('survey_id')
-        update_question(Question(title, question, answer, possibilities, survey_id, question_id))
+        update_question(Question(title, question, answer, possibilities, metric, platform, time_frame,
+                                 survey_id, question_id))
 
     return render_template('admin/show_results_for_single_question.html', question=get_question_by_id(question_id),
                            data={})
@@ -190,7 +194,8 @@ def show_survey_for_participants(survey_id):
 
     return render_template('survey/participate.html', survey=get_survey_by_id(survey_id),
                            questions=get_questions_by_survey_id(survey_id),
-                           creators=get_creators_from_business_layer_table())
+                           creators=get_creators_from_business_layer_table(),
+                           question_numerics_function=lambda x, y: get_numerical_question_part_by_parameters(x, y))
 
 
 @app.route('/results')

@@ -32,7 +32,7 @@
                         <label for="participantDepartment"></label>
                     </div>
                     <div class="input-field col l12">
-                        <select name="creatorName">
+                        <select name="creatorName" id="creatorName">
                             {% for creator in creators %}
                                 <option value="{{ creator.format_name }}"> {{ creator.format_name }}</option>
                             {% endfor %}
@@ -42,6 +42,12 @@
                     {% for question in questions %}
                         <div class="row">
                             <p>{{ question.question }}</p>
+                            {% if question.metric != 'None' and question.platform != 'None' and question.time_frame !=
+                            'None' %}
+                                {% with creator='Moritz Neumeier' %}
+                                {% include "question_partials/numerical_results.html" %}
+                                {% endwith %}
+                            {% endif %}
                             {% if question.answer == 'single_choice' %}
                                 <div class="input-field col l12">
                                     <input type="radio" id="{{ question.question_id }}_yes"
